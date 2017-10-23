@@ -1,0 +1,44 @@
+---
+title: "reading_data_from_the_web"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+library(rvest)
+library(httr)
+```
+
+```{r }
+url = "http://samhda.s3-us-gov-west-1.amazonaws.com/s3fs-public/field-uploads/2k15StateFiles/NSDUHsaeShortTermCHG2015.htm"
+drug_use_xml = read_html(url)
+
+drug_use_xml
+## let’s try our luck extracting the tables from the HTML.
+drug_use_xml %>%
+  html_nodes(css = "table")
+
+## This has extracted all of the tables on the original page; that’s why we have a list with 15 elements. We’re only focused on the first one for now, so let’s get the contents from the first list element.
+(drug_use_xml %>% html_nodes(css = "table"))[[1]] %>%
+  html_table() %>% 
+  # subtract the first row
+  .[-1,] %>% 
+  as_tibble()
+```
+
+```{r practice}
+url2 = "https://www.bestplaces.net/cost_of_living/city/new_york/new_york"
+cost_ny_xml = read_html(url2)
+
+cost_ny_xml %>%
+  html_nodes(css="table")
+
+cost_ny_table = (cost_ny_xml %>% html_nodes(css = "table"))[[2]] %>%
+  html_table(header=TRUE) %>% 
+  # subtract the first row
+  as_tibble()
+```
