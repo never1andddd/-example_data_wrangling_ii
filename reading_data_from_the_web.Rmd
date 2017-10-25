@@ -42,3 +42,30 @@ cost_ny_table = (cost_ny_xml %>% html_nodes(css = "table"))[[2]] %>%
   # subtract the first row
   as_tibble()
 ```
+
+```{r}
+hpss_html = read_html("http://www.imdb.com/title/tt0241527/")
+cast = hpss_html %>%
+  html_nodes(".itemprop .itemprop") %>%
+  html_text()
+```
+
+```{r}
+url = "https://www.amazon.com/Philips-Sonicare-rechargeable-toothbrush-HX6211/product-reviews/B00YAR7ZFM/ref=cm_cr_arp_d_viewopt_srt?ie=UTF8&reviewerType=all_reviews&sortBy=recent&pageNumber=1"
+toothbrush_html = read_html(url)
+
+toothbrush_titles = toothbrush_html %>%
+html_nodes("#cm_cr-review_list .a-color-base") %>%
+html_text()
+```
+
+```{r}
+nyc_water = GET("https://data.cityofnewyork.us/resource/waf7-5gvc.csv") %>% 
+  content("parsed")
+
+nyc_water = GET("https://data.cityofnewyork.us/resource/waf7-5gvc.json") %>% 
+  content("text") %>%
+  jsonlite::fromJSON() %>%
+  as_tibble()
+
+```
