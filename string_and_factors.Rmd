@@ -108,4 +108,22 @@ bmi_data %>%
   select(-std.error, -statistic) %>% 
   knitr::kable(digits = 3)
 
+bmi_data = bmi_data %>% 
+  mutate(ind = fct_recode(ind,
+                          "very_low"  = "level_1",
+                          "low"       = "level_2",
+                          "neutral"   = "level_3",
+                          "high"      = "level_4",
+                          "very_high" = "level_5"),
+         ind = fct_relevel(ind, "neutral"))
+
+bmi_data %>% 
+  lm(insulin ~ ind, data = .) %>% 
+  broom::tidy() %>% 
+  select(-std.error, -statistic) %>% 
+  knitr::kable(digits = 3)
+
+bmi_data %>% 
+  ggplot(aes(x = ind, y = insulin)) + geom_boxplot()
+
 ```
