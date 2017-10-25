@@ -1,0 +1,23 @@
+---
+title: "strings and factors"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r }
+library(tidyverse)
+library(janitor)
+library(haven)
+library(rvest)
+
+library(stringr)
+library(forcats)
+
+theme_set(theme_bw())
+theme_update(legend.position = "bottom")
+
+```
+
